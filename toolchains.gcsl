@@ -1,13 +1,14 @@
 # The gcc library's pinned toolchains: Bootlin's, each fetched by its URL
 # and SHA-256 and unpacked, for a workspace to register in `pekitconf`:
 #
-#     pekitconf = {toolchains = [Toolchain::C gcc.gcc_x86_64, Toolchain::C gcc.gcc_x86_64_to_aarch64]}
+#     import Toolchain::* from "github.com/gcslib/gcc"
+#     pekitconf = {toolchains = [Toolchain::C gcc_x86_64, Toolchain::C gcc_x86_64_to_aarch64]}
 #
 # - `gcc_x86_64`: GCC for x86-64 Linux with glibc, running on x86-64 Linux.
 # - `gcc_x86_64_to_aarch64`: GCC for aarch64 Linux with glibc, running on
 #   x86-64 Linux. Its tools are x86-64 programs, so they run on the x86-64
 #   toolchain's sysroot, which it fetches too.
-# - `musl_x86_64()`: GCC for x86-64 Linux with musl, running on x86-64 Linux
+# - `gcc_x86_64_musl()`: GCC for x86-64 Linux with musl, running on x86-64 Linux
 #   on the glibc toolchain's sysroot, as the aarch64 one does: what compiles
 #   the C of a static musl program, the C of a Rust crate say. It is no
 #   `Toolchain::C` to register, since a platform is an architecture and a
@@ -52,7 +53,7 @@ def Toolchain::C gcc_x86_64_to_aarch64() {
     }
 }
 
-def musl_x86_64() -> toolchain.CToolchain {
+def gcc_x86_64_musl() -> toolchain.CToolchain {
     let files = install(
         "x86-64--musl",
         "78d3a4683d6ac47b5ee73bd5bce210b55eb93dff1b137c61298af97eb0d2b5a6",

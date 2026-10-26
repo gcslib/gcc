@@ -37,7 +37,7 @@ Without the `pekitconf` line, the rules use the host's own `cc`.
 - `link(objs, libraries, output, flags)`: a program.
 - `gcc_x86_64` and `gcc_x86_64_to_aarch64`: Bootlin's GCC for x86-64 and
   for aarch64, both running on x86-64 Linux, each pinned by its SHA-256.
-- `musl_x86_64()`: Bootlin's GCC for x86-64 with musl, for static
+- `gcc_x86_64_musl()`: Bootlin's GCC for x86-64 with musl, for static
   programs.
 
 The comments at the top of `rules.gcsl` and `toolchains.gcsl` document each in
