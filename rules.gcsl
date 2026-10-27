@@ -75,7 +75,7 @@ fn paths(files: FileSet) -> List<String> { for f in files { f.path } }
 fn run(cchain: toolchain.CToolchain, tool: File, words: List<String>, inputs: FileSet, output: String) -> File {
     if cchain.runtime.path == "/" {
         let ran = exec([tool.path, ...words])
-        return file(output)
+        return working_dir().file(output)
     }
     let prefix = "{cchain.root.path}/"
     if not tool.path.starts_with(prefix) {
@@ -88,7 +88,7 @@ fn run(cchain: toolchain.CToolchain, tool: File, words: List<String>, inputs: Fi
     ]
     let box = fs.compose(placed).sandbox(cwd = OUT, env = {TMPDIR = OUT})
     let ran = box.exec("{OPT}/{tool.path.strip_prefix(prefix)}", ...words)
-    let made = file(output)
+    let made = working_dir().file(output)
     fs.copy(box.file("{OUT}/{output}").path, made.path)
     = made
 }
