@@ -1,7 +1,8 @@
 # gcslib/gcc
 
 C with GCC: compiling, archiving and linking, each a hermetic step,
-with Bootlin's pinned toolchains or the host's own compiler.
+with Bootlin's pinned toolchains, the GCC a root holds, or the host's own
+compiler.
 
 A GCSL library for pekit, Peios's build tool. Import it as
 `github.com/gcslib/gcc`.
@@ -39,6 +40,8 @@ Without the `pekitconf` line, the rules use the host's own `cc`.
   for aarch64, both running on x86-64 Linux, each pinned by its SHA-256.
 - `gcc_x86_64_musl()`: Bootlin's GCC for x86-64 with musl, for static
   programs.
+- `from_root(root)`: the GCC a root holds under its `/usr`, such as a
+  distribution's build root, running on that root and building against it.
 
 The comments at the top of `rules.gcsl` and `toolchains.gcsl` document each in
 full.
