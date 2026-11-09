@@ -14,6 +14,16 @@
 #   `Toolchain::C` to register, since a platform is an architecture and a
 #   system, and musl and glibc are both Linux's: whoever needs it asks for
 #   it by name.
+# - `from_root(root)`: the C toolchain a root holds, a system's own GCC
+#   under its `/usr`, as a distribution's build root has it: the compiler
+#   `usr/bin/gcc`, the archiver `usr/bin/ar` and the linker `usr/bin/ld`,
+#   unless `cc`, `ar` and `ld` name others. It runs on the root and builds
+#   against it, so the root is its install, its runtime and its sysroot at
+#   once: a sandbox of it has the root at `/` and again where the install
+#   is placed, and a compiler configured for `/usr` finds what it needs at
+#   either. It is no `Toolchain::C` to register, since what it is depends
+#   on the root it is given: a workspace registers one of its own that
+#   gives it the root.
 import unpack from archive
 import toolchain
 import Toolchain from toolchain
@@ -66,6 +76,15 @@ def gcc_x86_64_musl() -> toolchain.CToolchain {
         ld = files.file("bin/x86_64-linux-ld")
         sysroot = files.dir("x86_64-buildroot-linux-musl/sysroot")
     }
+}
+
+def from_root(
+    root: Dir,
+    cc: String = "usr/bin/gcc",
+    ar: String = "usr/bin/ar",
+    ld: String = "usr/bin/ld",
+) -> toolchain.CToolchain {
+    = {root = root; runtime = root; cc = root.file(cc); ar = root.file(ar); ld = root.file(ld); sysroot = root}
 }
 
 fn x86_64_install() -> Dir {
